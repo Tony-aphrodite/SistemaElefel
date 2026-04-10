@@ -42,7 +42,7 @@ const features = [
 const plans = [
   {
     name: 'Mensual',
-    price: 'Q 299',
+    price: 'Q 100',
     period: '/mes',
     highlight: false,
     features: [
@@ -55,30 +55,30 @@ const plans = [
   },
   {
     name: 'Semestral',
-    price: 'Q 249',
-    period: '/mes',
+    price: 'Q 480',
+    period: '/6 meses',
     highlight: true,
     badge: 'Más popular',
     features: [
       'Todo lo del plan Mensual',
-      'Ahorra Q 300 al año',
+      'Equivale a Q 80/mes',
       'Soporte prioritario',
       'Configuración incluida',
-      'Facturado cada 6 meses',
+      'Ahorra Q 240 al año',
     ],
   },
   {
     name: 'Anual',
-    price: 'Q 199',
-    period: '/mes',
+    price: 'Q 780',
+    period: '/año',
     highlight: false,
     badge: 'Mejor valor',
     features: [
       'Todo lo del plan Semestral',
-      'Ahorra Q 1,200 al año',
+      'Equivale a Q 65/mes',
       'Capacitación incluida',
       'Migración de datos',
-      'Facturado anualmente',
+      'Ahorra Q 420 al año',
     ],
   },
 ]
