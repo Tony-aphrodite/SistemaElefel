@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { Zap, Link, ShieldCheck, Printer, RefreshCw, FolderOpen } from 'lucide-react'
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP || '50212345678'
 const WA_LINK = `https://wa.me/${WHATSAPP}`
@@ -7,32 +8,32 @@ const DOWNLOAD_URL = process.env.NEXT_PUBLIC_DOWNLOAD_URL || '#'
 
 const features = [
   {
-    icon: '⚡',
+    icon: Zap,
     title: 'Emisión Instantánea',
     desc: 'Genera y certifica facturas electrónicas DTE en segundos directamente desde Eleventa, sin pasos adicionales.',
   },
   {
-    icon: '🔗',
+    icon: Link,
     title: 'Integración con Eleventa',
     desc: 'Se conecta automáticamente a tu base de datos de Eleventa. No modifica nada, solo lee las ventas.',
   },
   {
-    icon: '✅',
+    icon: ShieldCheck,
     title: 'Certificado por Infile',
     desc: 'Usa la plataforma FEEL de Infile, certificador autorizado por la SAT de Guatemala.',
   },
   {
-    icon: '🖨️',
+    icon: Printer,
     title: 'Impresión Automática',
     desc: 'Imprime el ticket FEL en tu impresora térmica automáticamente al certificar cada factura.',
   },
   {
-    icon: '🔄',
+    icon: RefreshCw,
     title: 'Régimen General y PEQ',
     desc: 'Compatible con Régimen General y Pequeño Contribuyente. Configura tu tipo de contribuyente fácilmente.',
   },
   {
-    icon: '📂',
+    icon: FolderOpen,
     title: 'Respaldo en PDF y XML',
     desc: 'Guarda cada factura en PDF y XML localmente para tus archivos contables y auditorías.',
   },
@@ -270,7 +271,9 @@ export default function HomePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map(f => (
               <div key={f.title} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all">
-                <div className="text-4xl mb-4">{f.icon}</div>
+                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+                  <f.icon className="w-6 h-6 text-blue-600" />
+                </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{f.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
               </div>
