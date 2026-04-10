@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Zap, Link, ShieldCheck, Printer, RefreshCw, FolderOpen, CircleCheckBig } from 'lucide-react'
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP || '50212345678'
-const WA_LINK = `https://wa.me/${WHATSAPP}`
+const WA_LINK = `https://api.whatsapp.com/send?phone=${WHATSAPP}`
 const DOWNLOAD_URL = process.env.NEXT_PUBLIC_DOWNLOAD_URL || '#'
 
 const features = [
