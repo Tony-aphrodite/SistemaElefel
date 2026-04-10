@@ -358,7 +358,7 @@ export default function HomePage() {
             ))}
           </div>
           <p className="text-center text-gray-400 text-sm mt-8">
-            * Pagos por transferencia bancaria o enlace de pago. Contáctanos por WhatsApp para más información.
+            * Pagos por transferencia bancaria. Contáctanos por WhatsApp para coordinar tu pago.
           </p>
         </div>
       </section>
