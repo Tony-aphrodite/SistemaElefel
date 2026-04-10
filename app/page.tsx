@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Zap, Link, ShieldCheck, Printer, RefreshCw, FolderOpen } from 'lucide-react'
+import { Zap, Link, ShieldCheck, Printer, RefreshCw, FolderOpen, CircleCheckBig } from 'lucide-react'
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP || '50212345678'
 const WA_LINK = `https://wa.me/${WHATSAPP}`
@@ -227,7 +227,7 @@ export default function HomePage() {
             <div className="hidden md:block">
               <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 space-y-4">
                 <div className="flex items-center gap-3 bg-green-500/20 border border-green-400/30 rounded-xl p-4">
-                  <span className="text-2xl">✅</span>
+                  <CircleCheckBig className="w-7 h-7 text-green-300 flex-shrink-0" />
                   <div>
                     <p className="text-white font-semibold text-sm">Factura certificada</p>
                     <p className="text-green-200 text-xs">Serie A · No. 00000123 · Q 250.00</p>
