@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ status: 'error' }, { status: 400 })
   }
 
-  const license = getLicenseByKey(key.trim().toUpperCase())
+  const license = await getLicenseByKey(key.trim().toUpperCase())
 
   if (!license) {
     return NextResponse.json({ status: 'not_found' })

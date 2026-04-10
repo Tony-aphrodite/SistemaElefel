@@ -12,7 +12,7 @@ async function authenticate() {
 
 export async function GET() {
   if (!await authenticate()) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
-  return NextResponse.json(getAllLicenses())
+  return NextResponse.json(await getAllLicenses())
 }
 
 export async function POST(req: NextRequest) {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   const expires = new Date()
   expires.setMonth(expires.getMonth() + Number(months))
 
-  const license = createLicense({
+  const license = await createLicense({
     client_name,
     client_email,
     client_phone,
