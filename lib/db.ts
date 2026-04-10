@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { getDb } from './neon'
 
 export interface License {
   id: number
@@ -13,35 +13,27 @@ export interface License {
 }
 
 export async function getAllLicenses(): Promise<License[]> {
-  const { data, error } = await supabase
-    .from('licenses')
-    .select('*')
-    .order('created_at', { ascending: false })
-
-  if (error) throw error
-  return data as License[]
+  const sql = getDb()
+  const rows = await sql`
+    SELECT * FROM licenses ORDER BY created_at DESC
+  `
+  return rows as License[]
 }
 
 export async function getLicenseByKey(key: string): Promise<License | undefined> {
-  const { data, error } = await supabase
-    .from('licenses')
-    .select('*')
-    .eq('license_key', key)
-    .single()
-
-  if (error && error.code !== 'PGRST116') throw error
-  return (data as License) ?? undefined
+  const sql = getDb()
+  const rows = await sql`
+    SELECT * FROM licenses WHERE license_key = ${key} LIMIT 1
+  `
+  return (rows[0] as License) ?? undefined
 }
 
 export async function getLicenseById(id: number): Promise<License | undefined> {
-  const { data, error } = await supabase
-    .from('licenses')
-    .select('*')
-    .eq('id', id)
-    .single()
-
-  if (error && error.code !== 'PGRST116') throw error
-  return (data as License) ?? undefined
+  const sql = getDb()
+  const rows = await sql`
+    SELECT * FROM licenses WHERE id = ${id} LIMIT 1
+  `
+  return (rows[0] as License) ?? undefined
 }
 
 export async function createLicense(data: {
@@ -51,33 +43,30 @@ export async function createLicense(data: {
   expires_at: string
   notes?: string
 }): Promise<License> {
+  const sql = getDb()
   const licenseKey = generateLicenseKey()
 
-  const { data: created, error } = await supabase
-    .from('licenses')
-    .insert({
-      license_key: licenseKey,
-      client_name: data.client_name,
-      client_email: data.client_email || '',
-      client_phone: data.client_phone || '',
-      status: 'active',
-      expires_at: data.expires_at,
-      notes: data.notes || '',
-    })
-    .select()
-    .single()
-
-  if (error) throw error
-  return created as License
+  const rows = await sql`
+    INSERT INTO licenses (license_key, client_name, client_email, client_phone, status, expires_at, notes)
+    VALUES (
+      ${licenseKey},
+      ${data.client_name},
+      ${data.client_email || ''},
+      ${data.client_phone || ''},
+      'active',
+      ${data.expires_at},
+      ${data.notes || ''}
+    )
+    RETURNING *
+  `
+  return rows[0] as License
 }
 
 export async function updateLicenseStatus(id: number, status: 'active' | 'inactive') {
-  const { error } = await supabase
-    .from('licenses')
-    .update({ status })
-    .eq('id', id)
-
-  if (error) throw error
+  const sql = getDb()
+  await sql`
+    UPDATE licenses SET status = ${status} WHERE id = ${id}
+  `
 }
 
 export async function renewLicense(id: number, days: number = 30) {
@@ -89,21 +78,18 @@ export async function renewLicense(id: number, days: number = 30) {
     : new Date()
   base.setDate(base.getDate() + days)
 
-  const { error } = await supabase
-    .from('licenses')
-    .update({ expires_at: base.toISOString(), status: 'active' })
-    .eq('id', id)
-
-  if (error) throw error
+  const sql = getDb()
+  await sql`
+    UPDATE licenses SET expires_at = ${base.toISOString()}, status = 'active'
+    WHERE id = ${id}
+  `
 }
 
 export async function deleteLicense(id: number) {
-  const { error } = await supabase
-    .from('licenses')
-    .delete()
-    .eq('id', id)
-
-  if (error) throw error
+  const sql = getDb()
+  await sql`
+    DELETE FROM licenses WHERE id = ${id}
+  `
 }
 
 function generateLicenseKey(): string {
