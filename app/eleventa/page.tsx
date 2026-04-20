@@ -57,7 +57,9 @@ const catalog = [
     tagline: 'HP ProDesk i7',
     description: 'Mini torre de clase empresarial con procesador Intel Core i7. Configuración adaptable al uso del negocio. Diseñada para operación continua.',
     price: 'Q 5,700',
-    image: '/catalog/hp-prodesk.png',
+    image: '/catalog/hp-prodesk.jpeg',
+    imageFit: 'cover' as const,
+    imagePosition: 'center',
     icon: Monitor,
     badge: 'Workstation',
     category: 'hardware',
@@ -69,7 +71,9 @@ const catalog = [
     tagline: 'Térmica 80mm para FEL',
     description: 'Impresora térmica 3nStar de 80mm. Corte automático, alta velocidad de impresión. Compatible con Eleventa y EleFEL.',
     price: 'Q 1,200',
-    image: '/catalog/3nstar-thermal-80mm.png',
+    image: '/catalog/3nstar-thermal-80mm.jpeg',
+    imageFit: 'cover' as const,
+    imagePosition: 'left center',
     icon: Receipt,
     badge: 'Más vendido',
     category: 'hardware',
@@ -82,6 +86,8 @@ const catalog = [
     description: 'Impresora térmica de etiquetas 3nStar. Ideal para imprimir códigos de barras, precios y etiquetas de productos a granel.',
     price: 'Q 1,500',
     image: '/catalog/3nstar-label.png',
+    imageFit: 'contain' as const,
+    imagePosition: 'center',
     icon: Tag,
     category: 'hardware',
   },
@@ -92,7 +98,9 @@ const catalog = [
     tagline: 'Omnidireccional de sobremesa',
     description: 'Lector de códigos de barras 3nStar manos libres. Lectura omnidireccional a alta velocidad. Ideal para cajas con alto volumen.',
     price: 'Q 1,400',
-    image: '/catalog/3nstar-scanner-handsfree.png',
+    image: '/catalog/3nstar-scanner-handsfree.jpeg',
+    imageFit: 'cover' as const,
+    imagePosition: 'left center',
     icon: ScanBarcode,
     category: 'hardware',
   },
@@ -103,7 +111,9 @@ const catalog = [
     tagline: 'Handheld con cable USB',
     description: 'Lector de códigos de barras 3nStar de mano. Conexión USB plug-and-play. Perfecto para inventarios y cajas adicionales.',
     price: 'Q 500',
-    image: '/catalog/3nstar-scanner-handheld.png',
+    image: '/catalog/3nstar-scanner-handheld.jpeg',
+    imageFit: 'cover' as const,
+    imagePosition: 'left center',
     icon: ScanLine,
     category: 'hardware',
   },
@@ -115,6 +125,8 @@ const catalog = [
     description: 'Pack de 100 rollos de papel térmico. Compatible con todas las impresoras térmicas de tickets. Disponible por pack o suscripción mensual.',
     price: 'Q 1,200',
     image: '/catalog/paper-thermal.png',
+    imageFit: 'contain' as const,
+    imagePosition: 'center',
     icon: Scroll,
     badge: 'Recompra recurrente',
     category: 'consumible',
@@ -127,6 +139,8 @@ const catalog = [
     description: 'Pack de 150 rollos de etiquetas térmicas adhesivas. Compatible con la impresora de etiquetas 3nStar. Disponible por pack o suscripción mensual.',
     price: 'Q 2,500',
     image: '/catalog/labels-thermal.png',
+    imageFit: 'contain' as const,
+    imagePosition: 'center',
     icon: Tags,
     badge: 'Recompra recurrente',
     category: 'consumible',
@@ -139,6 +153,8 @@ const catalog = [
     description: 'Licencia oficial de Eleventa Multicaja para operar el punto de venta. Perpetua, sin mensualidades ocultas.',
     price: 'Q 1,800',
     image: '/catalog/eleventa-license.png',
+    imageFit: 'contain' as const,
+    imagePosition: 'center',
     icon: Cpu,
     badge: 'Software',
     category: 'software',
@@ -151,6 +167,8 @@ const catalog = [
     description: 'Alta y configuración en la plataforma de Infile, integración con Eleventa y pruebas de certificación ante la SAT de Guatemala.',
     price: 'Q 1,200',
     image: '/catalog/infile-setup.png',
+    imageFit: 'contain' as const,
+    imagePosition: 'center',
     icon: ShieldCheck,
     badge: 'Servicio',
     category: 'servicio',
@@ -686,7 +704,13 @@ export default function EleventaPage() {
                 className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
-                  <CatalogImage src={item.image} alt={item.name} Icon={item.icon} />
+                  <CatalogImage
+                    src={item.image}
+                    alt={item.name}
+                    Icon={item.icon}
+                    fit={item.imageFit}
+                    position={item.imagePosition}
+                  />
                   {item.badge && (
                     <span className={`absolute top-3 right-3 text-white text-xs font-bold px-2.5 py-1 rounded-full ${
                       item.category === 'consumible'
@@ -1330,18 +1354,32 @@ export default function EleventaPage() {
   )
 }
 
-function CatalogImage({ src, alt, Icon }: { src: string; alt: string; Icon: LucideIcon }) {
+function CatalogImage({
+  src,
+  alt,
+  Icon,
+  fit = 'contain',
+  position = 'center',
+}: {
+  src: string
+  alt: string
+  Icon: LucideIcon
+  fit?: 'contain' | 'cover'
+  position?: string
+}) {
   const [failed, setFailed] = useState(false)
   if (failed) {
     return <Icon className="w-20 h-20 text-gray-300" strokeWidth={1.5} />
   }
+  const fitClass = fit === 'cover' ? 'object-cover' : 'object-contain p-4'
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt={alt}
       onError={() => setFailed(true)}
-      className="w-full h-full object-contain p-4"
+      style={{ objectPosition: position }}
+      className={`w-full h-full ${fitClass}`}
     />
   )
 }
