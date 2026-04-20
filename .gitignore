@@ -142,3 +142,5 @@ vite.config.ts.timestamp-*
 publish/
 installer/output/
 *.pdb
+
+.vercel
